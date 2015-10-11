@@ -8,67 +8,114 @@
  * Controller of the buddylistApp
  */
 angular.module('buddylistApp')
-  .controller('MainCtrl', function ($scope) {
-
+  .controller('MainCtrl', function ($scope, $modal) {
     $scope.currentstatus = "";
-    $scope.buddylist = [
-      {
-        fname:"Ross",
-        lname:"Gellar",
-        username:"RossG",
-        status:"Available",
-        image:"images/ross.jpeg"
-      },
+    $scope.more = false;
+    $scope.buddylist=[{
+          firstname: 'Ross',
+          lastname: 'Gellar',
+           username: 'RossG',
+            status : 'Available',
+            image:"images/ross.jpeg"
+    },
+    {
+          firstname: 'Monica',
+          lastname: 'Bing',
+           username: 'MoniB',
+            status : 'Available',
+             image:"images/monica.jpeg"
 
-      {
-        fname:"Monica",
-        lname:"Bing",
-        username:"MoniB",
-        status:"Available",
-        image:"images/monica.jpeg"
+    },
+          {
+           firstname: 'Chandler',
+           lastname: 'Bing',
+           username: 'Channy',
+           status : 'Away',
+            image:"images/chandler.jpeg"
+       },
 
-      },
-      { 
-        fname:"Chandler",
-        lname:"Bing",
-        username:"ChandlerB",
-        status:"Offline",
-        image:"images/chandler.jpeg"
-      },
-      {
-       fname:"Pheobe",
-        lname:"Buffey",
-        username:"pheebs",
-        status:"Away",
-        image:"images/pheebs.jpeg"
 
-      },
-      {
-       fname:"Joey",
-        lname:"Trib",
-        username:"JoeyT",
-        status:"Offline",
-        image:"images/joe.jpeg"
-      },
+       {
+           firstname: 'Rachel',
+           lastname: 'Green',
+           username: 'RachG',
+           status : 'Away',
+           image:"images/rachel.jpeg"
+       },
 
-      {
-       fname:"Rachel",
-        lname:"Green",
-        username:"RachG",
-        status:"Away",
-        image:"images/rachel.jpeg"
-      },
-     
-    ];
+       {
+           firstname: 'Joey',
+           lastname: 'Trib',
+           username: 'JoeyT',
+           status : 'Offline',
+           image:"images/joe.jpeg"
+       },
 
-    $scope.setstatus = function(status){
-      $scope.currentstatus = status;
-    };
+       {
+           firstname: 'Pheobe',
+           lastname: 'Buffey',
+           username: 'pheebs',
+           status : 'Offline',
+           image:"images/pheebs.jpeg"
+       }
 
-    $scope.addBuddy = function(){
+   ];
 
-    };
 
-    
+   $scope.setcurrentstatus = function(status){
+      $scope.currentstatus =  status;
 
-  });
+   };
+
+
+    $scope.open = function () {
+
+    var modalInstance = $modal.open({
+      templateUrl: '/views/myModalContent.html',
+      controller: ModalInstanceCtrl,
+      resolve: {
+        buddylist: function () {
+          return $scope.buddylist;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (newbud) {
+      $scope.newbud = newbud;
+    }, function () {
+      //$log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+});
+
+
+
+var ModalInstanceCtrl = function ($scope, $modalInstance, buddylist) {
+
+  var i = 4;
+  $scope.buddylist = buddylist;
+
+  $scope.ok = function () {
+    $modalInstance.close($scope.newbud);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+  
+  $scope.addbuddy= function(newbud) {
+    console.log('newbud' , newbud);
+    var newbud = {
+        firstname: newbud.fname,
+          lastname: newbud.lname,
+           username: newbud.username,
+            status : 'Available',
+            image:"images/chandler.jpeg"
+    }
+   
+   $scope.buddylist.push(newbud);
+  }
+
+};
+   
+  //});
