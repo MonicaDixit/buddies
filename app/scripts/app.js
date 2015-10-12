@@ -29,6 +29,10 @@ angular
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl'
       })
+      .when('/buddies/:id', {
+         templateUrl: 'views/profile.html',
+         controller: 'ProfileCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

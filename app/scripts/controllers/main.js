@@ -8,124 +8,38 @@
  * Controller of the buddylistApp
  */
 angular.module('buddylistApp')
-  .controller('MainCtrl', function ($scope, $modal, $firebaseArray) {
+  .controller('MainCtrl', function ($scope, $modal, $firebaseArray, Gravatar) {
 
-     var ref = new Firebase("https://code123.firebaseio.com/buddylist"); 
-     var buddyref = ref.child("buddies");
+     var ref = new Firebase("https://code123.firebaseio.com/buddylist/buddies"); 
+     $scope.buddylist = $firebaseArray(ref);
     $scope.currentstatus = "";
     $scope.more = false;
-
+      //$scope.buddylist = [];
+     
+     console.log($scope.buddylist);
     
-
-    // $scope.initial = function(){
-    //   buddyref.set({
-    //   RossG: {
-    //     firstname: 'Ross',
-    //     lastname: 'Gellar',
-    //     username: 'RossG',
-    //     status : 'Available',
-    //     image:"images/ross.jpeg"
-    //   },
-      
-    //   MoniB: {
-    //     firstname: 'Monica',
-    //     lastname: 'Bing',
-    //     username: 'MoniB',
-    //     status : 'Available',
-    //     image:"images/monica.jpeg"
-    //   },
-
-    //   Channy: {
-    //     firstname: 'Chandler',
-    //     lastname: 'Bing',
-    //     username: 'Channy',
-    //     status : 'Away',
-    //     image:"images/chandler.jpeg"
-    //   },
-
-    //   RachG: {
-    //     firstname: 'Rachel',
-    //     lastname: 'Green',
-    //     username: 'RachG',
-    //     status : 'Away',
-    //     image:"images/rachel.jpeg"
-    //   },
-      
-    //   JoeyT: {
-    //     firstname: 'Joey',
-    //     lastname: 'Trib',
-    //     username: 'JoeyT',
-    //     status : 'Offline',
-    //     image:"images/joe.jpeg"
-    //   },
-
-    //   pheebs: {
-
-    //     firstname: 'Pheobe',
-    //     lastname: 'Buffey',
-    //     username: 'pheebs',
-    //     status : 'Offline',
-    //     image:"images/pheebs.jpeg"
-    //   }
-    // });
-
-    // };
-
-    $scope.buddylist=[{
-          firstname: 'Ross',
-          lastname: 'Gellar',
-           username: 'RossG',
-            status : 'Available',
-            image:"images/ross.jpeg"
-    },
-    {
-          firstname: 'Monica',
-          lastname: 'Bing',
-           username: 'MoniB',
-            status : 'Available',
-             image:"images/monica.jpeg"
-
-    },
-          {
-           firstname: 'Chandler',
-           lastname: 'Bing',
-           username: 'Channy',
-           status : 'Away',
-            image:"images/chandler.jpeg"
-       },
-
-
-       {
-           firstname: 'Rachel',
-           lastname: 'Green',
-           username: 'RachG',
-           status : 'Away',
-           image:"images/rachel.jpeg"
-       },
-
-       {
+    var profile = {
            firstname: 'Joey',
            lastname: 'Trib',
            username: 'JoeyT',
            status : 'Offline',
            image:"images/joe.jpeg"
-       },
+    };
 
-       {
-           firstname: 'Pheobe',
-           lastname: 'Buffey',
-           username: 'pheebs',
-           status : 'Offline',
-           image:"images/pheebs.jpeg"
-       }
+   
 
-   ];
-
+    // $scope.initial = function(){
+    //   $scope.buddylist.$add(profile);
+    // };
 
    $scope.setcurrentstatus = function(status){
       $scope.currentstatus =  status;
-
    };
+
+
+   $scope.deletebuddy = function(id) {
+        $scope.buddylist.$remove(id);
+      }
 
 
     $scope.open = function () {
@@ -150,7 +64,7 @@ angular.module('buddylistApp')
 
 
 
-var ModalInstanceCtrl = function ($scope, $modalInstance, buddylist) {
+var ModalInstanceCtrl = function ($scope, $modalInstance, buddylist, Gravatar) {
 
   var i = 4;
   $scope.buddylist = buddylist;
@@ -169,11 +83,20 @@ var ModalInstanceCtrl = function ($scope, $modalInstance, buddylist) {
         firstname: newbud.fname,
           lastname: newbud.lname,
            username: newbud.username,
+           email: newbud.email,
             status : 'Available',
-            image:"images/chandler.jpeg"
+            birthday: new Date(newbud.birthday),
+            image:getavatar(newbud.email)
     }
    
-   $scope.buddylist.push(newbud);
+   $scope.buddylist.$add(newbud);
+  }
+
+
+  var getavatar = function(email){
+    console.log('to get gravatar');
+    return Gravatar.generate(email);
+
   }
 
 };
