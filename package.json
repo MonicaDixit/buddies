@@ -1,7 +1,9 @@
 {
   "name": "buddylist",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "moment": "^2.10.6"
+  },
   "repository": {},
   "devDependencies": {
     "grunt": "^0.4.5",

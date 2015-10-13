@@ -12,9 +12,8 @@ angular.module('buddylistApp')
 
      var ref = new Firebase("https://code123.firebaseio.com/buddylist/buddies"); 
      $scope.buddylist = $firebaseArray(ref);
-    $scope.currentstatus = "";
-    $scope.more = false;
-      //$scope.buddylist = [];
+     $scope.currentstatus = "";
+     $scope.more = false;
      
      console.log($scope.buddylist);
     
@@ -25,12 +24,6 @@ angular.module('buddylistApp')
            status : 'Offline',
            image:"images/joe.jpeg"
     };
-
-   
-
-    // $scope.initial = function(){
-    //   $scope.buddylist.$add(profile);
-    // };
 
    $scope.setcurrentstatus = function(status){
       $scope.currentstatus =  status;
@@ -64,7 +57,7 @@ angular.module('buddylistApp')
 
 
 
-var ModalInstanceCtrl = function ($scope, $modalInstance, buddylist, Gravatar) {
+var ModalInstanceCtrl = function ($scope, $modalInstance, buddylist, Gravatar, Firebase) {
 
   var i = 4;
   $scope.buddylist = buddylist;
@@ -79,14 +72,18 @@ var ModalInstanceCtrl = function ($scope, $modalInstance, buddylist, Gravatar) {
   
   $scope.addbuddy= function(newbud) {
     console.log('newbud' , newbud);
+    console.log('bdate' , new Date(newbud.birthday.toString()).toDateString());
+    var ele = new Date(newbud.birthday.toString()).toDateString().substring(4,10);
+    var ele2 =  moment().format('MMMM Do YYYY, h:mm:ss a');
     var newbud = {
         firstname: newbud.fname,
           lastname: newbud.lname,
            username: newbud.username,
            email: newbud.email,
             status : 'Available',
-            birthday: new Date(newbud.birthday),
-            image:getavatar(newbud.email)
+            birthday: ele,
+            image:getavatar(newbud.email),
+            lastSeenAt: ele2.toString()
     }
    
    $scope.buddylist.$add(newbud);
@@ -101,4 +98,3 @@ var ModalInstanceCtrl = function ($scope, $modalInstance, buddylist, Gravatar) {
 
 };
    
-  //});
