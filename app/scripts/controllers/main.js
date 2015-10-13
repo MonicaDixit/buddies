@@ -31,7 +31,9 @@ angular.module('buddylistApp')
 
 
    $scope.deletebuddy = function(id) {
-        $scope.buddylist.$remove(id);
+        if (confirm('Are you sure you want to unfriend this buddy?')){
+           $scope.buddylist.$remove(id);
+         }
       }
 
 

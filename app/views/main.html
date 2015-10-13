@@ -15,7 +15,7 @@
        <img class="img-circle" src={{buddy.image}} style="width:100%;height:100%"> 
          <div style="opacity:1;position:absolute;bottom:-30%;left:20%;z-index:10;padding:5px;margin-bottom:10px">
             <a ng-href="/#/buddies/{{buddy.$id}}" style="color:black">{{buddy.firstname}} {{buddy.lastname}} "({{buddy.username}})"</a>
-            <p style="color:black"><b>Status: {{buddy.status}}</b><br/><i title="click here to unfriend" class="fa fa-frown-o" ng-click="deletebuddy($index)">Unfriend</i></p>&nbsp;&nbsp;
+            <p style="color:black"><b>Status:</b> {{buddy.status}}<br/><i title="click here to unfriend" class="fa fa-frown-o" ng-click="deletebuddy($index)">Unfriend</i></p>&nbsp;&nbsp;
         </div> 
       </div>
     </div>  
